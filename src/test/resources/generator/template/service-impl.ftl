@@ -1,7 +1,7 @@
 package ${basePackage}.service.impl;
 
-import ${basePackage}.dao.${modelNameUpperCamel}Mapper;
-import ${basePackage}.model.${modelNameUpperCamel};
+import ${basePackage}.mapper.${modelNameUpperCamel}Mapper;
+import ${basePackage}.model.po.${modelNameUpperCamel};
 import ${basePackage}.service.${modelNameUpperCamel}Service;
 import ${basePackage}.core.AbstractService;
 import org.springframework.stereotype.Service;

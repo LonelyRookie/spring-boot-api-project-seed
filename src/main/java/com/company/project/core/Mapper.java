@@ -6,6 +6,8 @@ import tk.mybatis.mapper.common.IdsMapper;
 import tk.mybatis.mapper.common.special.InsertListMapper;
 
 /**
+ * Dao层 基础接口，其他Mapper接口，请继承该接口
+ * <p>
  * 定制版MyBatis Mapper插件接口，如需其他接口参考官方文档自行添加。
  */
 public interface Mapper<T>

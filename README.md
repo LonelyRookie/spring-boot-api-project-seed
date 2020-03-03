@@ -15,7 +15,41 @@ Spring Boot API Project Seed 是一个基于Spring Boot & MyBatis的种子项目
 - 集成MyBatis、通用Mapper插件、PageHelper分页插件，实现单表业务零SQL
 - 提供代码生成器根据表名生成对应的Model、Mapper、MapperXML、Service、ServiceImpl、Controller等基础代码，其中Controller模板默认提供POST和RESTful两套，根据需求在```CodeGenerator.genController(tableName)```方法中自己选择，默认使用POST模板。代码模板可根据实际项目的需求来扩展，由于每个公司业务都不太一样，所以只提供了一些比较基础、通用的模板，**主要是提供一个思路**来减少重复代码的编写，我在实际项目的使用中，其实根据公司业务的抽象编写了大量的模板。另外，使用模板也有助于保持团队代码风格的统一
 - 另有彩蛋，待你探索
- 
+
+## 目录模块介绍
+1. model：数据模型层。主要是对数据的封装，model下分为三块do、dto、bo
+    * BO（Business Object）：业务对象。由Service层输出的封装业务逻辑的对象。所有http请求的入参对象都带上BO结尾。
+    * PO（Persistent Object）：与数据库表结构一一对应，通过DAO层向上传输数据源对象。所有的数据库对象都以PO结尾。
+    * DTO（Data Transfer Object）：数据传输对象，Service或Manager向外传输的对象。http请求返回外部都以DTO结尾。
+
+2. web：主要是对访问控制进行转发，各类基本参数校验，或者不复用的业务简单处理等
+    * controller：包含所有的对外提供的http接口
+
+3. service：业务逻辑处理层。
+
+4. mapper：数据访问层。与底层MySQL、Oracle、Hbase等进行数据交互。
+
+5. configurer：主要是基础信息的配置，包含所有的Spring boot的配置信息。
+
+6. core：
+    * ServiceException：本系统自定义的业务异常类。该系统需要抛出的异常信息，都使用它
+    * Service：Service层的基础接口，其他Service接口请继承该接口
+    * AbstractService：实现Service接口的抽象类，封装了对数据库的基本操作。基于通用MyBatis Mapper插件的Service接口的实现
+    * Mapper：dao层的基础接口。定制版MyBatis Mapper插件接口，如需其他接口参考官方文档自行添加
+    * ResponseDTO：接口响应结果的统一封装，所有响应的结果，必须使用ResponseDTO类封装
+    * ResultCode：响应码枚举类
+    * ProjectConstant：项目常量类
+    
+7. manager：负责对于外部对接的接口进行一次包装，供service层使用，理论上client不能被service直接调用。
+    * 对第三方平台封装的层，预处理返回结果及转化异常信息；
+    * 对Service层通用能力的下沉，如缓存方案、中间件通用处理；
+    * 与DAO层交互，对多个DAO的组合复用。
+
+8. utils：主要是包含所有的工具类。
+
+9. enums：主要包含所有的枚举信息，常量信息。
+ 
+
 ## 快速开始
 1. 克隆项目
 2. 对```test```包内的代码生成器```CodeGenerator```进行配置，主要是JDBC，因为要根据表名来生成代码
